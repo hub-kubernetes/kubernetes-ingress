@@ -1,18 +1,18 @@
 # kubernetes-ingress
-Demo regarding kubernetes Ingress with Nginx ingress controller
+## Demo regarding kubernetes Ingress with Nginx ingress controller
 
 This demo shows how to install Nginx ingress controller and managing services using ingress through external DNS 
 There are multiple ways to install the controller, we will focus on deploying the controller as a Deployment with Nodeport Service type
 
-Pre-requisite -
+## Pre-requisite -
 
 1. Working kubernetes cluster 
 2. git installed on the machine 
 3. Access to atleast one DNS that can be configured (optional) 
 
-Steps - 
+## Steps - 
 
-1. Install ingress controller on your Kubernetes cluster
+## 1. Install ingress controller on your Kubernetes cluster
 
     a. git clone https://github.com/nginxinc/kubernetes-ingress.git (official kubernetes nginx github repository)
     
@@ -50,7 +50,7 @@ Steps -
    
 Now we have successfully installed NGINX Ingress controller. Lets now see the demo where we will route 3 services (nginx based service) using ingress. 
  
-2.  Deploy the dummy application 
+## 2.  Deploy the dummy application 
 
     a. Clone this repository
     
@@ -99,7 +99,7 @@ Now we have successfully installed NGINX Ingress controller. Lets now see the de
             
 Now that we have successfully deployed our application, its time to create an ingress resource that will route traffic to all the 3 services 
 
-3. Deploy ingress resource
+## 3. Deploy ingress resource
 
     a. There is a file ingress.yaml that contains ingress definition to route the traffic 
     
@@ -115,9 +115,9 @@ Now that we have successfully deployed our application, its time to create an in
 
 We have now successfully deployed ingress controller. We can now test the ingress in 2 Ways 
 
-4. Testing ingress controller - 
+## 4. Testing ingress controller - 
 
-    a. You dont have your own domain name - 
+###     a. You dont have your own domain name - 
     
         1. Go up to the step 1.m and 1.o where we got the IP address of the ingress controller and the Port
         
@@ -142,7 +142,7 @@ We have now successfully deployed ingress controller. We can now test the ingres
             
         7.  Make sure you change the host kubernetesfederatedcluster.com to the appropriate host that is defined in your ingress file. 
         
-    b. You own your own domain name - 
+###    b. You own your own domain name - 
     
         1. If you own your own domain name, there are certain configuration you need to do before hand
         
