@@ -2,7 +2,8 @@
 ## Demo regarding kubernetes Ingress with Nginx ingress controller
 
 This demo shows how to install Nginx ingress controller and managing services using ingress through external DNS 
-There are multiple ways to install the controller, we will focus on deploying the controller as a Deployment with Nodeport Service type
+There are multiple ways to install the controller, we will focus on deploying the controller as a Deployment with 
+Nodeport Service type
 
 ## Pre-requisite -
 
@@ -34,7 +35,8 @@ There are multiple ways to install the controller, we will focus on deploying th
     
     j. Expose the ingress controller by creating a service of type NodePort - kubectl create -f service/nodeport.yaml
     
-    k. In case you are using managed Kubernetes Instances using GKE / AWS / AZURE you can create the service type as Loadbalancer
+    k. In case you are using managed Kubernetes Instances using GKE / AWS / AZURE you can create the service type as 
+       Loadbalancer
     
     l. Verify the service - kubectl get svc -n=nginx-ingress
     
@@ -48,15 +50,18 @@ There are multiple ways to install the controller, we will focus on deploying th
 
     o. Note the internal IP address - 192.168.1.77
    
-Now we have successfully installed NGINX Ingress controller. Lets now see the demo where we will route 3 services (nginx based service) using ingress. 
+Now we have successfully installed NGINX Ingress controller. Lets now see the demo where we will route 3 services 
+(nginx based service) using ingress. 
  
 ## 2.  Deploy the dummy application 
 
     a. Clone this repository
     
-    b. You will find 3 directories - app1, app2, and app3. These 3 directories will have a Dockerfile, index.html and a default.conf file. 
+    b. You will find 3 directories - app1, app2, and app3. These 3 directories will have a Dockerfile, index.html and a 
+       default.conf file. 
     
-    c. The default.conf file is edited to provide the locations /app1, /app2, and /app3 respectively. Similarly index.html file is modified to have different texts simulating 3 different applications deployed on nginx 
+    c. The default.conf file is edited to provide the locations /app1, /app2, and /app3 respectively. Similarly index.html 
+       file is modified to have different texts simulating 3 different applications deployed on nginx 
     
     d. The Dockerfile is using nginx as the base image and the files default.conf and index.html are overridden. 
     
@@ -70,7 +75,8 @@ Now we have successfully installed NGINX Ingress controller. Lets now see the de
         
         4. cd app3 ; docker build . -t {YOUR_DOCKERLOGIN_ID}/nginx-app3 ; docker push {YOUR_DOCKERLOGIN_ID}/nginx-app3
         
-        5. There are 3 files present - app1.yaml, app2.yaml and app3.yaml which contains the deployment definition of all the 3 images 
+        5. There are 3 files present - app1.yaml, app2.yaml and app3.yaml which contains the deployment definition of all the 
+           3 images 
         
         6. kubectl create -f app1.yaml -f app2.yaml -f app3.yaml
         
@@ -97,13 +103,15 @@ Now we have successfully installed NGINX Ingress controller. Lets now see the de
             curl 10.110.243.149
             You have reached app3
             
-Now that we have successfully deployed our application, its time to create an ingress resource that will route traffic to all the 3 services 
+Now that we have successfully deployed our application, its time to create an ingress resource that will route traffic to all 
+the 3 services 
 
 ## 3. Deploy ingress resource
 
     a. There is a file ingress.yaml that contains ingress definition to route the traffic 
     
-    b. The ingress file contails the host as : kubernetesfederatedcluster.com, If you have your own domain, make the relevant changes here. If you dont have your own domain, you can change this to any value like abc.com or example.com. 
+    b. The ingress file contails the host as : kubernetesfederatedcluster.com, If you have your own domain, make the relevant 
+       changes here. If you dont have your own domain, you can change this to any value like abc.com or example.com. 
     
     b. kubectl create -f ingress.yaml
     
@@ -123,7 +131,8 @@ We have now successfully deployed ingress controller. We can now test the ingres
         
         2. export IC_IP=192.168.1.77    (Step 1.o)
         
-        3. export IC_HTTP_PORT=80       (Step 1.m - Please not not to use the NodePort as we are using the IP address of the ingress controller) 
+        3. export IC_HTTP_PORT=80       (Step 1.m - Please not not to use the NodePort as we are using the IP address of 
+           the ingress controller) 
         
         4. You can specify the port as 443 if your application uses SSL. We are not using SSL at the moment 
         
@@ -140,7 +149,8 @@ We have now successfully deployed ingress controller. We can now test the ingres
             curl --resolve kubernetesfederatedcluster.com:$IC_HTTP_PORT:$IC_IP http://kubernetesfederatedcluster.com:$IC_HTTP_PORT/app3 --insecure
             You have reached app3
             
-        7.  Make sure you change the host kubernetesfederatedcluster.com to the appropriate host that is defined in your ingress file. 
+        7.  Make sure you change the host kubernetesfederatedcluster.com to the appropriate host that is defined in your 
+            ingress file. 
         
 ###    b. You own your own domain name - 
     
@@ -156,19 +166,24 @@ We have now successfully deployed ingress controller. We can now test the ingres
             
             b. Associate the DNS with your owned DNS name - in my case - kubernetesfederatedcluster.com
             
-            c. Update your Domain setting from your provider to use the nameservers provided by your cloud provider. Remove any custom DNS setting that you might have by your domain provider. 
+            c. Update your Domain setting from your provider to use the nameservers provided by your cloud provider. 
+               Remove any custom DNS setting that you might have by your domain provider. 
             
-            d. Create a new A record for kubernetesfederatedcluster.com and associate the external static Ip that you reserved with the A record 
+            d. Create a new A record for kubernetesfederatedcluster.com and associate the external static Ip that you reserved 
+               with the A record 
             
-            e. Create a new CNAME with DNS as www.kubernetesfederatedcluster.com. and associate it with the canonical name as kubernetesfederatedcluster.com
+            e. Create a new CNAME with DNS as www.kubernetesfederatedcluster.com. and associate it with the canonical name as 
+               kubernetesfederatedcluster.com
             
             f. Save these changes
             
-            g. Primary goal is to make sure that your DNS resolves to the external IP that you have reserved and assigned to the VM within your cluster. 
+            g. Primary goal is to make sure that your DNS resolves to the external IP that you have reserved and assigned to 
+               the VM within your cluster. 
             
             h. Get the nginx controller port detail from above step 1.m - this is 30982 in our case. 
             
-            i. The DNS changes might take 10-15 mins to reflect. Make sure you ping your domain using - ping kubernetesfederatedcluster.com and you should get the correct IP address 
+            i. The DNS changes might take 10-15 mins to reflect. Make sure you ping your domain using - ping 
+               kubernetesfederatedcluster.com and you should get the correct IP address 
             
             j. Access your ingress as below - 
             
